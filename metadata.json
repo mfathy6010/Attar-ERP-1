@@ -1,0 +1,9 @@
+{
+  "name": "Attar-ERP",
+  "description": "نظام متكامل لإدارة محلات العطارة والتوابل، يشمل نقاط البيع، المخازن، التصنيع، والحسابات الختامية.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
