@@ -144,6 +144,78 @@
         "uid": { "type": "string" }
       },
       "required": ["id", "date", "description", "amount", "uid"]
+    },
+    "SocialAccount": {
+      "title": "SocialAccount",
+      "description": "Connected social media account",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "platform": { "type": "string" },
+        "name": { "type": "string" },
+        "username": { "type": "string" },
+        "avatar": { "type": "string" },
+        "accessToken": { "type": "string" },
+        "refreshToken": { "type": "string" },
+        "expiresAt": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "uid": { "type": "string" }
+      },
+      "required": ["id", "platform", "name", "accessToken", "uid"]
+    },
+    "SocialPost": {
+      "title": "SocialPost",
+      "description": "Social media post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "platform": { "type": "string" },
+        "content": { "type": "string" },
+        "mediaUrls": { "type": "array" },
+        "status": { "type": "string" },
+        "scheduledAt": { "type": "string" },
+        "publishedAt": { "type": "string" },
+        "stats": { "type": "object" },
+        "uid": { "type": "string" }
+      },
+      "required": ["id", "platform", "content", "status", "uid"]
+    },
+    "SocialMessage": {
+      "title": "SocialMessage",
+      "description": "Social media message",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "platform": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderAvatar": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "isIncoming": { "type": "boolean" },
+        "repliedTo": { "type": "string" },
+        "uid": { "type": "string" }
+      },
+      "required": ["id", "platform", "senderId", "senderName", "text", "timestamp", "uid"]
+    },
+    "SocialComment": {
+      "title": "SocialComment",
+      "description": "Social media comment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "postId": { "type": "string" },
+        "platform": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "likes": { "type": "number" },
+        "replies": { "type": "array" },
+        "uid": { "type": "string" }
+      },
+      "required": ["id", "postId", "platform", "authorName", "text", "timestamp", "uid"]
     }
   },
   "firestore": {
@@ -178,6 +250,22 @@
     "users/{uid}/settings/current": {
       "schema": "Settings",
       "description": "User's settings"
+    },
+    "users/{uid}/socialAccounts/{accountId}": {
+      "schema": "SocialAccount",
+      "description": "User's connected social accounts"
+    },
+    "users/{uid}/socialPosts/{postId}": {
+      "schema": "SocialPost",
+      "description": "User's social media posts"
+    },
+    "users/{uid}/socialMessages/{messageId}": {
+      "schema": "SocialMessage",
+      "description": "User's social media messages"
+    },
+    "users/{uid}/socialComments/{commentId}": {
+      "schema": "SocialComment",
+      "description": "User's social media comments"
     }
   }
 }

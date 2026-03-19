@@ -93,6 +93,32 @@ service cloud.firestore {
         data.amount is number && data.uid == request.auth.uid;
     }
 
+    function isValidSocialAccount(data) {
+      return hasRequiredFields(['id', 'platform', 'name', 'accessToken', 'uid']) &&
+        data.id is string && data.platform is string && data.name is string &&
+        data.accessToken is string && data.uid == request.auth.uid;
+    }
+
+    function isValidSocialPost(data) {
+      return hasRequiredFields(['id', 'platform', 'content', 'status', 'uid']) &&
+        data.id is string && data.platform is string && data.content is string &&
+        data.status is string && data.uid == request.auth.uid;
+    }
+
+    function isValidSocialMessage(data) {
+      return hasRequiredFields(['id', 'platform', 'senderId', 'senderName', 'text', 'timestamp', 'uid']) &&
+        data.id is string && data.platform is string && data.senderId is string &&
+        data.senderName is string && data.text is string && data.timestamp is string &&
+        data.uid == request.auth.uid;
+    }
+
+    function isValidSocialComment(data) {
+      return hasRequiredFields(['id', 'postId', 'platform', 'authorName', 'text', 'timestamp', 'uid']) &&
+        data.id is string && data.postId is string && data.platform is string &&
+        data.authorName is string && data.text is string && data.timestamp is string &&
+        data.uid == request.auth.uid;
+    }
+
     // ===============================================================
     // Match Blocks
     // ===============================================================
@@ -153,6 +179,34 @@ service cloud.firestore {
         allow read: if isOwner(userId);
         allow create: if isOwner(userId) && isValidExpense(request.resource.data);
         allow update: if isOwner(userId) && isValidExpense(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      match /socialAccounts/{accountId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidSocialAccount(request.resource.data);
+        allow update: if isOwner(userId) && isValidSocialAccount(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      match /socialPosts/{postId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidSocialPost(request.resource.data);
+        allow update: if isOwner(userId) && isValidSocialPost(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      match /socialMessages/{messageId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidSocialMessage(request.resource.data);
+        allow update: if isOwner(userId) && isValidSocialMessage(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      match /socialComments/{commentId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidSocialComment(request.resource.data);
+        allow update: if isOwner(userId) && isValidSocialComment(request.resource.data);
         allow delete: if isOwner(userId);
       }
     }
